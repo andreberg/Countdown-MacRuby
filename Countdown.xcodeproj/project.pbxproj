@@ -50,6 +50,7 @@
 		652D006D113EF7C000E03050 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 652D006C113EF7C000E03050 /* Preferences.xib */; };
 		652D0076113EF80000E03050 /* PreferenceController.rb in Resources */ = {isa = PBXBuildFile; fileRef = 652D0075113EF80000E03050 /* PreferenceController.rb */; };
 		652D0306113F3F0500E03050 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 652D0305113F3F0500E03050 /* Defaults.plist */; };
+		654A881D11424C4700681B7D /* SyntaxHighlightingTextField.rb in Resources */ = {isa = PBXBuildFile; fileRef = 654A881C11424C4700681B7D /* SyntaxHighlightingTextField.rb */; };
 		655250411139DDFE00BA508F /* AppController.rb in Resources */ = {isa = PBXBuildFile; fileRef = 655250401139DDFE00BA508F /* AppController.rb */; };
 		6552504F1139E28C00BA508F /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6552504E1139E28C00BA508F /* BWToolkitFramework.framework */; };
 		655250961139E46700BA508F /* hourglass.icns in Resources */ = {isa = PBXBuildFile; fileRef = 655250951139E46700BA508F /* hourglass.icns */; };
@@ -87,6 +88,7 @@
 		652D006C113EF7C000E03050 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		652D0075113EF80000E03050 /* PreferenceController.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = PreferenceController.rb; sourceTree = "<group>"; };
 		652D0305113F3F0500E03050 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		654A881C11424C4700681B7D /* SyntaxHighlightingTextField.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = SyntaxHighlightingTextField.rb; sourceTree = "<group>"; };
 		655250401139DDFE00BA508F /* AppController.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = AppController.rb; sourceTree = "<group>"; };
 		6552504E1139E28C00BA508F /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = Library/Frameworks/BWToolkitFramework.framework; sourceTree = SDKROOT; };
 		655250951139E46700BA508F /* hourglass.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hourglass.icns; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				6552509E1139E60300BA508F /* Action.rb */,
 				65257D9C113A84DB007EE8AF /* NumberDialingTextField.rb */,
 				652D0075113EF80000E03050 /* PreferenceController.rb */,
+				654A881C11424C4700681B7D /* SyntaxHighlightingTextField.rb */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				652D006D113EF7C000E03050 /* Preferences.xib in Resources */,
 				652D0076113EF80000E03050 /* PreferenceController.rb in Resources */,
 				652D0306113F3F0500E03050 /* Defaults.plist in Resources */,
+				654A881D11424C4700681B7D /* SyntaxHighlightingTextField.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
