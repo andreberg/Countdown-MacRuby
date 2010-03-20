@@ -25,6 +25,7 @@
 				4D1A51A010A4FF5D0046A98A /* ShellScript */,
 			);
 			dependencies = (
+				655D395C1154AB3C006DD1C1 /* PBXTargetDependency */,
 			);
 			name = Compile;
 			productName = Compile;
@@ -36,6 +37,7 @@
 				4D1A51A410A4FF640046A98A /* ShellScript */,
 			);
 			dependencies = (
+				655D398E1154B5AF006DD1C1 /* PBXTargetDependency */,
 			);
 			name = Embed;
 			productName = Embed;
@@ -59,6 +61,23 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		655D395B1154AB3C006DD1C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090 /* Countdown */;
+			remoteInfo = Countdown;
+		};
+		655D398D1154B5AF006DD1C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090 /* Countdown */;
+			remoteInfo = Countdown;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		172754B4107597CF00D0347B /* CopyFiles */ = {
@@ -320,6 +339,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		655D395C1154AB3C006DD1C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Countdown */;
+			targetProxy = 655D395B1154AB3C006DD1C1 /* PBXContainerItemProxy */;
+		};
+		655D398E1154B5AF006DD1C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Countdown */;
+			targetProxy = 655D398D1154B5AF006DD1C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -444,7 +476,10 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -456,7 +491,10 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				GCC_ENABLE_OBJC_GC = required;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
