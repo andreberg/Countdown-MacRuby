@@ -44,7 +44,8 @@ class Action
    attr_accessor :type, :text
 
    Types = [
-      'Shut Down', 
+      'Shut Down',
+      'Restart',
       'Sleep', 
       'Log Off', 
       'Dialog', 
@@ -83,15 +84,17 @@ class Action
       
       if @type == Types[0]    # 'Shut Down'
          as = compileAppleScript "tell application \"System Events\" to shut down"
-      elsif @type == Types[1] # 'Sleep'
+      elsif @type == Types[1] # 'Restart'
+         as = compileAppleScript "tell application \"System Events\" to restart"
+      elsif @type == Types[2] # 'Sleep'
          as = compileAppleScript "tell application \"System Events\" to sleep"
       elsif @type == Types[3] # 'Log Off'
          as compileAppleScript "tell application \"System Events\" to log out"
       elsif @type == Types[4] # 'Dialog + Beep'
          as = compileAppleScript "property parent : app \"Countdown\"\nbeep 1\n#{dialog}"
-      elsif @type == Types[4] # 'Dialog + Beep'
+      elsif @type == Types[5] # 'Dialog + Beep'
          as = compileAppleScript "property parent : app \"Countdown\"\n#{dialog}"
-      elsif @type == Types[5] # 'Shell Script'
+      elsif @type == Types[6] # 'Shell Script'
          shellscript = @text
       end
       
