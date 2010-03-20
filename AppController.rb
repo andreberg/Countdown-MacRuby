@@ -99,7 +99,6 @@ class AppController < NSObject
       cmp = @stopTime.compare NSDate.date
       if cmp < 0
          progressIndicator.setDoubleValue 0.0
-         progressIndicator.setToolTip ""
          timeTextField.setDoubleValue @timeTextFieldValue
          @timer.invalidate
          @action.run
@@ -109,7 +108,6 @@ class AppController < NSObject
          puts "%s %%" % pvaluestr if $DEBUG
          @timerCount += @updateInterval
          progressIndicator.setDoubleValue pvalue
-         progressIndicator.setToolTip pvaluestr
          timeTextField.setDoubleValue pvaluestr
       end
    end
