@@ -4,7 +4,6 @@
 # Created by Andre Berg on 28.02.10.
 # Copyright 2010 Berg Media. All rights reserved.
 
-class AppController
 require 'PreferenceController'
 
 LogOutputVerboseKeyPath = 'logOutputVerbose'
@@ -12,6 +11,8 @@ LogOutputVerboseKeyPath = 'logOutputVerbose'
 $defaults = NSUserDefaults.standardUserDefaults
 $center = NSNotificationCenter.defaultCenter
 $prefs = PreferenceController.sharedPreferenceController
+
+class AppController < NSObject
    
    attr_accessor :mainWindow, :startButton, :timeTextField, :timeStepper, :progressIndicator
    attr_reader :isCounting
