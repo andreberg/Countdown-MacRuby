@@ -58,9 +58,54 @@ class Action
       @appController = appController
    end
    
-   def run
-      puts "executing action '#{@type}' with action text '#{Time.mstamp + ': ' + @text}'"
-      @appController.startStopCountdown(self)
+   def compileAppleScript script
+      as = NSAppleScript.alloc.initWithSource script
+      result = as.compileAndReturnError nil
+      if result
+         as
+      else
+         false
+      end
    end
    
+   def constructAppleScriptDialog
+      title = "Countdown"
+      #res = "display dialog \"#{@text}\" with title \"#{title}\" buttons {\"OK\"} with icon 1 default button 1"
+      res = "display alert \"#{title}\" message \"#{Time.stamp}: #{@text}\" buttons {\"OK\"} default button 1"
+   end
+   
+   def run
+      puts self
+      @appController.startStopCountdown(self)
+      
+      dialog = constructAppleScriptDialog
+      as = nil
+      
+      if @type == Types[0]    # 'Shut Down'
+         as = compileAppleScript "tell application \"System Events\" to shut down"
+      elsif @type == Types[1] # 'Sleep'
+         as = compileAppleScript "tell application \"System Events\" to sleep"
+      elsif @type == Types[3] # 'Log Off'
+         as compileAppleScript "tell application \"System Events\" to log out"
+      elsif @type == Types[4] # 'Dialog + Beep'
+         as = compileAppleScript "property parent : app \"Countdown\"\nbeep 1\n#{dialog}"
+      elsif @type == Types[4] # 'Dialog + Beep'
+         as = compileAppleScript "property parent : app \"Countdown\"\n#{dialog}"
+      elsif @type == Types[5] # 'Shell Script'
+         shellscript = @text
+      end
+      
+      if as
+         as.executeAndReturnError nil
+      elsif as == false
+         puts "AppleScript compilation error!"
+      else
+         # execute shellscript
+         puts "shell script returned '" + `#{@text}` + "'"
+      end
+   end
+   
+   def to_s
+      "executing action at #{Time.datemstamp} with type '#{@type}' and action text '#{@text}'"
+   end
 end
