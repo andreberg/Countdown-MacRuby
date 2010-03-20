@@ -5,6 +5,13 @@
 # Copyright 2010 Berg Media. All rights reserved.
 
 class AppController
+require 'PreferenceController'
+
+LogOutputVerboseKeyPath = 'logOutputVerbose'
+
+$defaults = NSUserDefaults.standardUserDefaults
+$center = NSNotificationCenter.defaultCenter
+$prefs = PreferenceController.sharedPreferenceController
    
    attr_accessor :mainWindow, :startButton, :timeTextField, :timeStepper, :progressIndicator
    attr_reader :isCounting
