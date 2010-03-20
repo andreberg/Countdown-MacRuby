@@ -18,14 +18,11 @@
 # we return from the corresponding NSWindow delegate method in our 
 # AppController.
 
+require 'AppController'
+
 class NumberDialingTextFieldEditor < NSTextView
 
    attr_accessor :timeTextField, :timeStepper
-   
-   def awakeFromNib
-      @@timeTextField = timeTextField
-      @@timeStepper = timeStepper
-   end
    
    def keyDown(event)
       characters = event.characters
@@ -37,12 +34,12 @@ class NumberDialingTextFieldEditor < NSTextView
             #puts "RIGHT pressed"
          elsif character == NSUpArrowFunctionKey
             #puts "UP pressed"
-            @@timeTextField.doubleValue += 1
-            @@timeStepper.takeDoubleValueFrom(@@timeTextField)
+            timeTextField.doubleValue += 1
+            timeStepper.takeDoubleValueFrom(timeTextField)
          elsif character == NSDownArrowFunctionKey
             #puts "DOWN pressed"
-            @@timeTextField.doubleValue -= 1
-            @@timeStepper.takeDoubleValueFrom(@@timeTextField)
+            timeTextField.doubleValue -= 1
+            timeStepper.takeDoubleValueFrom(timeTextField)
          end
       end
       super
@@ -60,18 +57,23 @@ class NumberDialingTextField < NSTextField
       
    def mouseEntered(theEvent)
       #puts "mouse entered #{theEvent.description}"
-      self.takeDoubleValueFrom(timeStepper)
+      if not AppController.isCounting?
+         self.becomeFirstResponder
+      end
       super
    end
    
    def mouseExited(theEvent)
       #puts "mouse exited #{theEvent.description}"
-      timeStepper.takeDoubleValueFrom(self)
+      if not AppController.isCounting?
+         timeStepper.takeDoubleValueFrom(self)
+      end
       super
    end
    
    def scrollWheel(theEvent)
       #puts "scroll wheel #{theEvent.description}"
+      self.becomeFirstResponder
       
       dy = theEvent.deltaY
       mf = theEvent.modifierFlags
