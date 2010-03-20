@@ -33,6 +33,10 @@ class Time
    def self.stamp
       now.strftime("%H:%M:%S")
    end
+   def self.datemstamp
+      n = self.now
+      n.strftime("%Y-%m-%d %H:%M:%S.#{String(n.usec).substringToIndex 3} %z")
+   end
 end
 
 class Action
