@@ -12,5 +12,7 @@
 	<string>1.0</string>
 	<key>LogOutputVerbose</key>
 	<false/>
+	<key>UpdateInterval</key>
+	<string>1.0</string>
 </dict>
 </plist>
