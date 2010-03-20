@@ -15,44 +15,77 @@ $prefs = PreferenceController.sharedPreferenceController
 class AppController < NSObject
    
    attr_accessor :mainWindow, :startButton, :timeTextField, :timeStepper, :progressIndicator
-   attr_reader :isCounting
-   
-   UPDATE_INTERVAL = 1.0
    
    def awakeFromNib
-      @is_counting = false
-      @stop_time = nil
-      @time_text_field_value = nil
-      @timer = nil
-      @timer_count = nil
-      @action = nil
-      
+      # Objects
+      @timeStepper = timeStepper
+      @timeTextField = timeTextField
       @textFieldEditor = nil
-      @repeatingTimer = nil
+      @timer = nil
+      
+      $DEBUG = $prefs.logOutputVerbose
+      
+      $center.addObserver(self, selector:'logOutputVerboseChanged:', name: LogOutputVerboseChangedNotification, object:$prefs)
+   end
+   
+   def init
+      super
+      @@isCounting = false
+      
+      @timerCount = 0
+      @stopTime = nil
+      @updateInterval = 0   # granularity of log and progress indicator updates
+      @timeInterval = 0     # granularity of the interval used for the timer math
+      @action = ""
+      self
+   end
+   
+   def self.sharedAppController
+      @instance ||= alloc.init
+   end
+   
+   def self.isCounting?
+      @@isCounting
    end
    
    def startStopCountdown(sender)
+      @action = Action.new(self, $defaults.stringForKey(ActionTypeKey), $defaults.stringForKey(ActionTextKey))
+      
       sb = startButton
       if sb.title == "Start" then
          self.startCountdown
          sb.setTitle "Stop"
          timeTextField.setEnabled false
+         timeStepper.setEnabled false
       else
          self.stopCountdown
          sb.setTitle "Start"
          timeTextField.setEnabled true
+         timeStepper.setEnabled true
       end
    end
    
    def startCountdown
-      puts "starting countdown at #{Time.new}"
-      @is_counting = true
-      @timer_count = 0
-      @time_text_field_value = Float(timeTextField.stringValue)
-      @stop_time = NSDate.dateWithTimeIntervalSinceNow(@time_text_field_value)
-          
+      puts "starting countdown at #{Time.datemstamp}"
+      @@isCounting = true
+      
+      @timeTextFieldValue = timeTextField.doubleValue
+      @timeInterval = @timeTextFieldValue
+      @timeUnit = $defaults.stringForKey TimeUnitKey
+      
+      if @timeUnit == "minutes"
+         @timeInterval = @timeInterval * 60.0
+      end
+      
+      puts "using time unit #{@timeUnit}" if $DEBUG
+      puts "target interval = %02.02f s" % @timeInterval if $DEBUG
+      
+      @timerCount = 0
+      @stopTime = NSDate.dateWithTimeIntervalSinceNow(@timeInterval)
+      
+      @updateInterval = Float($defaults.stringForKey('UpdateInterval'))
       @timer = NSTimer.alloc.initWithFireDate(NSDate.date, 
-                                                 interval:UPDATE_INTERVAL, 
+                                                 interval:@updateInterval, 
                                                    target:self, 
                                                  selector:'updateCountdownAndCheckStopCondition:' , 
                                                  userInfo:nil, 
@@ -60,28 +93,56 @@ class AppController < NSObject
                                                 
       NSRunLoop.currentRunLoop.addTimer(@timer, forMode:NSDefaultRunLoopMode)
       progressIndicator.setDoubleValue 100.0
-      #@action.performSelector :run, withObject:nil, afterDelay:@stop_time
    end
    
    def updateCountdownAndCheckStopCondition(timer)
-      cmp = @stop_time.compare NSDate.date
+      cmp = @stopTime.compare NSDate.date
       if cmp < 0
          progressIndicator.setDoubleValue 0.0
+         progressIndicator.setToolTip ""
+         timeTextField.setDoubleValue @timeTextFieldValue
          @timer.invalidate
          @action.run
       else
-         pvalue = 100 - ((Float(@timer_count)/Float(@time_text_field_value)) * 100.0)
-         puts "%02.02f" % pvalue
-         @timer_count += UPDATE_INTERVAL
-         progressIndicator.setDoubleValue(pvalue)
+         pvalue = 100 - ((Float(@timerCount)/Float(@timeInterval)) * 100.0)
+         pvaluestr = "%02.02f" % pvalue
+         puts "%s %%" % pvaluestr if $DEBUG
+         @timerCount += @updateInterval
+         progressIndicator.setDoubleValue pvalue
+         progressIndicator.setToolTip pvaluestr
+         timeTextField.setDoubleValue pvaluestr
       end
    end
    
    def stopCountdown
       @timer.invalidate
-      # NSObject.cancelPreviousPerformRequestsWithTarget @action
-      puts "stopping countdown at #{Time.new}"
-      @is_counting = false
+      timeTextField.setDoubleValue @timeTextFieldValue
+      puts "stopping countdown at #{Time.datemstamp}"
+      @@isCounting = false
+   end
+   
+   # MARK: KVO
+   
+   # couldn't get KVO to work
+#    def observeValueForKeyPath keyPath, ofObject:theObject, change:theChange, context:theContext
+#       p "KVO"
+#       if keyPath == LogOutputVerboseKeyPath
+#          self.logOutputVerboseChanged(change.valueForKey NSKeyValueChangeNewKey)
+#       end
+#    end
+
+   # MARK: Notifications
+   
+   def logOutputVerboseChanged(notification)
+      puts "log output verbose changed" if $DEBUG
+      newValue = notification.userInfo['newValue']
+      if newValue
+        puts "setting $DEBUG to true" if $DEBUG
+        $DEBUG = true
+      else
+        $DEBUG = false
+        puts "setting $DEBUG to false" if $DEBUG
+      end
    end
    
    # MARK: NSApplication Delegate
@@ -90,15 +151,18 @@ class AppController < NSObject
       true
    end
    
+   def applicationWillTerminate(notification)
+      $center.removeObserver self, name: LogOutputVerboseChangedNotification, object:$prefs
+   end
+   
    # because we can't rely on the nib loading mechanism to load top-level objects
    # in the order we need them, as a little workaround I created ivars on the top-level
    # objects that had their outlet connections turn nil so I could then set them from
-   # here when the app has really finished loading up completely.
+   # here when the app has really finished loading up completely and all the connections 
+   # should exist and not point to nil.
    def applicationDidFinishLaunching(notification)
-      defaults = NSUserDefaults.standardUserDefaults
-      PreferenceController.setupDefaults
-      @action = Action.new(self, defaults.stringForKey(ActionTypeKey), defaults.stringForKey(ActionTextKey))
-      progressIndicator.setDisplayedWhenStopped false
+      @timeTextField = timeTextField
+      @timeStepper = timeStepper
    end
    
    # MARK: NSWindow Delegate
@@ -116,3 +180,4 @@ class AppController < NSObject
       end
    end   
 end
+
