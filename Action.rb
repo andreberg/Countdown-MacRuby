@@ -42,8 +42,8 @@ end
 class Action
    
    attr_accessor :type, :text
-   #puts(NSString.stringWithFormat("%@", NSString.stringWithString("test")))
-   TYPES = [
+
+   Types = [
       'Shut Down', 
       'Sleep', 
       'Log Off', 
