@@ -4,13 +4,10 @@
 # Created by Andre Berg on 28.02.10.
 # Copyright 2010 Berg Media. All rights reserved.
 
-require 'PreferenceController'
-
 LogOutputVerboseKeyPath = 'logOutputVerbose'
 
 $defaults = NSUserDefaults.standardUserDefaults
 $center = NSNotificationCenter.defaultCenter
-$prefs = PreferenceController.sharedPreferenceController
 
 class AppController < NSObject
    

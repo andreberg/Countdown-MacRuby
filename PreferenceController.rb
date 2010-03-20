@@ -16,7 +16,6 @@ TimeValueKey = 'TimeValue'
 LogOutputVerboseKey = 'LogOutputVerbose'
 UpdateIntervalKey = 'UpdateInterval'
 
-
 class PreferenceController < NSWindowController
    
    attr_accessor :appController
@@ -81,3 +80,5 @@ class PreferenceController < NSWindowController
       sheet.orderOut self
    end
 end
+
+$prefs = PreferenceController.sharedPreferenceController

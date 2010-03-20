@@ -18,8 +18,6 @@
 # we return from the corresponding NSWindow delegate method in our 
 # AppController.
 
-require 'AppController'
-
 class NumberDialingTextFieldEditor < NSTextView
 
    attr_accessor :timeTextField, :timeStepper
